@@ -20,18 +20,7 @@ export const Home = (props) => {
 
     return(
         <>
-            <FlatList
-                numColumns = {2}
-                data={props.cardList}
-                keyExtractor={(o, i) => i.toString()}
-                renderItem={this.renderProductListItem}
-                ListFooterComponent={() => {
-                    if ((this.state.products.length < this.state.totalFound || this.state.loading) && !this.state.refreshing)
-                        return <Spinner style={style.loading} />
-                    return <View style={style.loading} />
-                }}
-
-                ItemSeparatorComponent={() => <View style={style.separator} />} />
+            <!-- TODO flatlist -->
         </>
     );
 }
