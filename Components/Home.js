@@ -5,19 +5,23 @@ import {Card} from "./Card";
 
 export const Home = (props) => {
 
-    const cardList = props.cardList;
+    const cardList = props.route.params.cardList;
+
+    const navigateToCardView = (id) => {
+        props.navigation.navigate("CardView", { id: id });
+    };
 
     return (
         <>
             <View style={styles.titleCardContainer}>
                 <Text style={styles.titleCardText}>Cards</Text>
-                <Divider/>
+                <Divider style={{marginTop : 5,}}/>
             </View>
             <View style={styles.flatListContainer}>
                 <FlatList
                     data={cardList}
                     numColumns={2}
-                    renderItem={({item}) => (<Card item={item} cardList={cardList}/>)}
+                    renderItem={({item}) => (<Card item={item} cardList={cardList} navigateToCardView={navigateToCardView}/>)}
                     keyExtractor={item => item.id}
                 />
             </View>
@@ -26,21 +30,12 @@ export const Home = (props) => {
 }
 
 const styles = StyleSheet.create({
-    cardComp : {
-        width : 150,
-        height : 120,
-        marginLeft : 15,
-        marginTop: 30,
-        borderColor : '#707070',
-        borderWidth : 1,
-        borderRadius : 10,
-    },
     flatListContainer : {
         marginLeft: 15,
         height : 600,
     },
     titleCardContainer : {
-        marginTop: 100,
+        marginTop: 70,
         marginLeft: 30,
         marginRight: 30,
     },

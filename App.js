@@ -4,12 +4,16 @@ import {NativeBaseProvider} from 'native-base';
 import {StyleSheet} from "react-native";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {Home} from './Components/Home';
 import {Settings} from './Components/Settings';
 import {Create} from "./Components/Create";
+import {CardView} from "./Components/CardView";
+
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function App() {
 
@@ -51,6 +55,24 @@ export default function App() {
         }
     ])
 
+    const StackNavigator = () => {
+        return(
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Home"
+                    component={Home}
+                    initialParams={{cardList : cardList}}
+                    options={{headerShown : false}}
+                />
+                <Stack.Screen
+                    name="CardView"
+                    component={CardView}
+                    initialParams={{cardList : cardList}}
+                />
+            </Stack.Navigator>
+        );
+    }
+
     return (
         <>
             <NativeBaseProvider>
@@ -75,7 +97,7 @@ export default function App() {
                     >
                         <Tab.Screen
                             name="Home"
-                            children={() => <Home cardList={cardList}/>}
+                            component={StackNavigator}
                         />
                         <Tab.Screen
                             name="Create"
@@ -92,4 +114,6 @@ export default function App() {
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+
+});
