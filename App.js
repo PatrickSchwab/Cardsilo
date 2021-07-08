@@ -38,11 +38,15 @@ export default function App() {
             id: 4,
             companyName: "Coop",
             notes: "blablabla",
-        }
-        ,
+        },
         {
             id: 5,
             companyName: "brack",
+            notes: "blablabla",
+        },
+        {
+            id: 6,
+            companyName: "Basefit",
             notes: "blablabla",
         }
     ])
@@ -56,7 +60,6 @@ export default function App() {
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ focused, color, size }) => {
                             let iconName;
-
                             if (route.name === 'Home') {
                                 iconName = focused
                                     ? 'ios-information-circle'
