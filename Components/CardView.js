@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity} from "react-native";
-import {Divider, Image, Text, View} from "native-base";
+import {Divider, Image, Input, Text, View} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
+import Barcode from "react-native-barcode-builder";
 
 
 export const CardView = (props) => {
@@ -25,6 +26,7 @@ export const CardView = (props) => {
         });
     }, [props.navigation]);
 
+
     return(
         <>
             <View style={styles.pictureCardContainer}>
@@ -42,17 +44,48 @@ export const CardView = (props) => {
                     borderRadius={100}
                 />
             </View>
-            <Text style={styles.cardViewTitleText}>
-                {cardList[id].companyName}
-            </Text>
-            <Divider style={styles.cardViewDivider}/>
-            <View style={styles.barCodeContainer}>
-
+            <View style={styles.pictureCreateCardContainer}>
             </View>
-            <View style={styles.notesContainer}>
-                <Text>
-                    {cardList[id].notes}
-                </Text>
+            <View>
+                <Input
+                    isDisabled={true}
+                    variant="unstyled"
+                    fontSize={22}
+                    fontWeight={"bold"}
+                    textAlign={"center"}
+                    marginBottom={30}
+                    value={cardList[id].companyName}
+                    style={styles.cardViewTitleText}
+                    _light={{
+                        placeholderTextColor: "blueGray.400",
+                    }}
+                    _dark={{
+                        placeholderTextColor: "blueGray.50",
+                    }}
+                />
+            </View>
+            <Divider style={styles.cardViewDivider}/>
+            <Input
+                isDisabled={true}
+                multiline={true}
+                maxHeight={70}
+                width={310}
+                color="#707070"
+                height={150}
+                marginRight={"auto"}
+                marginLeft={"auto"}
+                maxLength={40}
+                value={cardList[id].notes}
+                style={styles.notesContainer}
+                _light={{
+                    placeholderTextColor: "blueGray.400",
+                }}
+                _dark={{
+                    placeholderTextColor: "blueGray.50",
+                }}
+            />
+            <View style={styles.barCodeContainer}>
+                <Barcode value="Hello World" format="CODE128" />
             </View>
         </>
     );
@@ -60,7 +93,11 @@ export const CardView = (props) => {
 
 const styles = StyleSheet.create({
     pictureCardContainer : {
+        height: 100,
         width: 100,
+        borderRadius: 100,
+        borderColor : '#707070',
+        borderWidth : 0,
         marginLeft: "auto",
         marginRight: "auto",
         marginTop: 30,

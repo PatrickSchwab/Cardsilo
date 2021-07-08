@@ -24,49 +24,49 @@ export default function App() {
             companyName: "Tesla",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 1,
             companyName: "Google",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 2,
             companyName: "Pepsi",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 3,
             companyName: "Migros",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 4,
             companyName: "Coop",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 5,
             companyName: "brack",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         },
         {
             id: 6,
             companyName: "Basefit",
             notes: "blablabla",
             type: "",
-            barCode: "",
+            barCode: "2090007024565",
         }
     ]);
 
@@ -105,7 +105,7 @@ export default function App() {
                     component={CreateMenu}
                     initialParams={{cardList : cardList}}
                     options={{
-                        headerTitle : "Add a new Card",
+                        headerTitle : "Add Card",
                     }}
                 />
             </Stack.Navigator>
