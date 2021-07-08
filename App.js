@@ -45,9 +45,18 @@ export default function App() {
                     inactiveTintColor: 'gray',
                 }}
             >
-            <Tab.Screen name="Home" component={Home} />
-            <Tab.Screen name="Create" component={Create} />
-            <Tab.Screen name="Settings" component={Settings} />
+            <Tab.Screen
+                name="Home"
+                children={()=><Home cardList={cardList}/>}
+            />
+            <Tab.Screen
+                name="Create"
+                children={()=><Create cardList={cardList}/>}
+            />
+            <Tab.Screen
+                name="Settings"
+                children={()=><Settings cardList={cardList}/>}
+            />
           </Tab.Navigator>
         </NavigationContainer>
       </>

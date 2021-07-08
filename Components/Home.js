@@ -17,10 +17,9 @@ const Card = () => {
 }
 
 export const Home = (props) => {
-
-    return(
+    return (
         <>
-            <!-- TODO flatlist -->
+
         </>
     );
 }
