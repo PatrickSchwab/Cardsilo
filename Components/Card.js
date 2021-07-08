@@ -7,23 +7,25 @@ export const Card = (props) => {
     const [imageLoading, setImageLoading] = useState(true);
 
     return(
-        <TouchableOpacity
-            style={styles.cardComp}
-        >
-            <Image
-                source = { imageLoading
-                    ?
-                    { uri: 'https://logo.clearbit.com/'+props.cardList[props.item.id].companyName.toLowerCase()+'.ch?size=500' }
-                    :
-                    { uri: 'https://logo.clearbit.com/'+props.cardList[props.item.id].companyName.toLowerCase()+'.com?size=500' }
-                }
-                onError={()=>setImageLoading(false)}
-                alt={props.cardList[props.item.id].companyName}
-                height={118}
-                resizeMode="cover"
-                borderRadius={9}
-            />
-        </TouchableOpacity>
+        <>
+            <TouchableOpacity
+                style={styles.cardComp}
+            >
+                <Image
+                    source = { imageLoading
+                        ?
+                        { uri: 'https://logo.clearbit.com/'+props.cardList[props.item.id].companyName.toLowerCase()+'.ch?size=500' }
+                        :
+                        { uri: 'https://logo.clearbit.com/'+props.cardList[props.item.id].companyName.toLowerCase()+'.com?size=500' }
+                    }
+                    onError={()=>setImageLoading(false)}
+                    alt={props.cardList[props.item.id].companyName}
+                    height={118}
+                    resizeMode="cover"
+                    borderRadius={9}
+                />
+            </TouchableOpacity>
+        </>
     );
 }
 
