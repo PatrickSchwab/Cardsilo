@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 export const Create = (props) =>{
 
@@ -42,7 +42,7 @@ export const Create = (props) =>{
             />
             {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
             <View style={styles.scanContainer}/>
-            <MaterialCommunityIcons style={styles.barcodeIcon} name="barcode" size={40} color="#707070" />
+            <FontAwesome style={styles.barcodeIcon} name="barcode" size={50} color="#707070" />
         </View>
     );
 }
@@ -63,7 +63,9 @@ const styles = StyleSheet.create({
         borderRadius : 10,
     },
     barcodeIcon : {
+        marginTop: 10,
         marginLeft: "auto",
         marginRight: "auto",
+        opacity: 0.5,
     }
 });

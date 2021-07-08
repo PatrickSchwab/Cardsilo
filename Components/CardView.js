@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet} from "react-native";
-import {Divider, FlatList, Image, Text, View} from "native-base";
+import React, {useState} from 'react';
+import {StyleSheet, TouchableOpacity} from "react-native";
+import {Divider, Image, Text, View} from "native-base";
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 export const CardView = (props) => {
@@ -10,7 +11,19 @@ export const CardView = (props) => {
     const cardList = props.route.params.cardList;
     const [imageLoading, setImageLoading] = useState(true);
 
-    useEffect(()=> {props.navigation.setOptions({title: cardList[id].companyName});},[]);
+    React.useLayoutEffect(() => {
+        props.navigation.setOptions({
+            title: cardList[id].companyName,
+            headerRight: () => (
+                <TouchableOpacity
+                    onPress={() => alert('This is a button!')}//TODO Edit mode
+                    style={{marginRight: 10,}}
+                >
+                    <MaterialIcons name="edit" size={23} color="#0E7AFE" />
+                </TouchableOpacity>
+            ),
+        });
+    }, [props.navigation]);
 
     return(
         <>
@@ -46,23 +59,18 @@ export const CardView = (props) => {
 }
 
 const styles = StyleSheet.create({
-    titleCardContainer : {
-        marginTop: 50,
-        marginLeft: 30,
-        marginRight: 30,
-    },
     pictureCardContainer : {
         width: 100,
         marginLeft: "auto",
         marginRight: "auto",
-        marginTop: 50,
+        marginTop: 30,
     },
     cardViewTitleText : {
         fontSize: 22,
         fontWeight: "bold",
         textAlign: "center",
         marginTop: 10,
-        marginBottom: 10,
+        marginBottom: 30,
     },
     cardViewDivider : {
         width: 310,
@@ -78,6 +86,14 @@ const styles = StyleSheet.create({
         borderColor : '#707070',
         borderWidth : 1,
         borderRadius : 10,
+        /* shadowing
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5
+
+         */
     },
     notesContainer : {
         marginRight : "auto",

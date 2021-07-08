@@ -35,7 +35,7 @@ export const Settings = () =>{
                     <MaterialIcons name="arrow-forward" size={18} color="black" />
                 </View>
             </TouchableOpacity>
-            <Divider style={{marginTop : 30,}}/>
+            <Divider style={{marginTop : 60,}}/>
         </>
     );
 }

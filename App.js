@@ -95,12 +95,18 @@ export default function App() {
                     name="Create"
                     component={Create}
                     initialParams={{cardList : cardList}}
-                    options={{headerShown : false}}
+                    options={{
+                        headerShown : false,
+                        headerTitle : "Scan",
+                    }}
                 />
                 <Stack.Screen
-                    name="Add a new Card"
+                    name="CreateMenu"
                     component={CreateMenu}
                     initialParams={{cardList : cardList}}
+                    options={{
+                        headerTitle : "Add a new Card",
+                    }}
                 />
             </Stack.Navigator>
         );

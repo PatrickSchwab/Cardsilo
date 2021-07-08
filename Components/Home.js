@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {Divider, FlatList} from "native-base";
 import {Card} from "./Card";
 
@@ -32,7 +32,7 @@ export const Home = (props) => {
 const styles = StyleSheet.create({
     flatListContainer : {
         marginLeft: 15,
-        height : 600,
+        height : 620,
     },
     titleCardContainer : {
         marginTop: 70,
