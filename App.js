@@ -10,6 +10,7 @@ import {Home} from './Components/Home';
 import {Settings} from './Components/Settings';
 import {Create} from "./Components/Create";
 import {CardView} from "./Components/CardView";
+import {CreateMenu} from "./Components/CreateMenu";
 
 
 const Tab = createBottomTabNavigator();
@@ -22,40 +23,54 @@ export default function App() {
             id: 0,
             companyName: "Tesla",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 1,
             companyName: "Google",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 2,
             companyName: "Pepsi",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 3,
             companyName: "Migros",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 4,
             companyName: "Coop",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 5,
             companyName: "brack",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         },
         {
             id: 6,
             companyName: "Basefit",
             notes: "blablabla",
+            type: "",
+            barCode: "",
         }
-    ])
+    ]);
 
-    const StackNavigator = () => {
+    const StackNavigatorHome = () => {
         return(
             <Stack.Navigator>
                 <Stack.Screen
@@ -71,7 +86,25 @@ export default function App() {
                 />
             </Stack.Navigator>
         );
-    }
+    };
+
+    const StackNavigatorCreate = () => {
+        return(
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Create"
+                    component={Create}
+                    initialParams={{cardList : cardList}}
+                    options={{headerShown : false}}
+                />
+                <Stack.Screen
+                    name="Add a new Card"
+                    component={CreateMenu}
+                    initialParams={{cardList : cardList}}
+                />
+            </Stack.Navigator>
+        );
+    };
 
     return (
         <>
@@ -97,11 +130,11 @@ export default function App() {
                     >
                         <Tab.Screen
                             name="Home"
-                            component={StackNavigator}
+                            component={StackNavigatorHome}
                         />
                         <Tab.Screen
                             name="Create"
-                            children={() => <Create cardList={cardList}/>}
+                            component={StackNavigatorCreate}
                         />
                         <Tab.Screen
                             name="Settings"

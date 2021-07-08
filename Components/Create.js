@@ -3,9 +3,16 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export const Create = () =>{
+export const Create = (props) =>{
+
+    const cardList = props.route.params.cardList;
+
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
+
+    const navigateToCreateMenu = ({type,barCode}) => {
+        props.navigation.navigate("CreateMenu", {type: type, barCode : barCode});
+    };
 
     useEffect(() => {
         (async () => {
@@ -16,7 +23,8 @@ export const Create = () =>{
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
+        navigateToCreateMenu({type: type, barCode: data});
     };
 
     if (hasPermission === null) {
@@ -33,9 +41,7 @@ export const Create = () =>{
                 style={StyleSheet.absoluteFillObject}
             />
             {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-            <View style={styles.scanContainer}>
-
-            </View>
+            <View style={styles.scanContainer}/>
             <MaterialCommunityIcons style={styles.barcodeIcon} name="barcode" size={40} color="#707070" />
         </View>
     );
