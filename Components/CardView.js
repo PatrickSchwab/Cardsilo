@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity} from "react-native";
 import {Divider, Image, Input, Text, View} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
-import Barcode from "react-native-barcode-builder";
 
 
 export const CardView = (props) => {
@@ -85,7 +84,6 @@ export const CardView = (props) => {
                 }}
             />
             <View style={styles.barCodeContainer}>
-                <Barcode value="Hello World" format="CODE128" />
             </View>
         </>
     );
