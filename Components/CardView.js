@@ -1,15 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from "react-native";
 import {Divider, Image, Input, Text, View} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
+import Barcode from 'react-native-barcode-svg';
 
 
 export const CardView = (props) => {
 
-
     const id = props.route.params.id;
     const cardList = props.route.params.cardList;
     const [imageLoading, setImageLoading] = useState(true);
+
+    const getSanitizeType = () => {
+        const sanitizedType = cardList[id].type.split(".");
+        return sanitizedType[sanitizedType.length - 1].toString().replace("-", "").toUpperCase();
+    };
 
     React.useLayoutEffect(() => {
         props.navigation.setOptions({
@@ -25,6 +30,10 @@ export const CardView = (props) => {
         });
     }, [props.navigation]);
 
+    useEffect(() => {
+        console.log("CardViewList change")
+    }, [cardList])
+
 
     return(
         <>
@@ -32,9 +41,9 @@ export const CardView = (props) => {
                 <Image
                     source = { imageLoading
                         ?
-                        { uri: 'https://logo.clearbit.com/'+cardList[id].companyName.toLowerCase()+'.ch?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+ cardList[id].companyName.toLowerCase()+'.ch?size=500' }
                         :
-                        { uri: 'https://logo.clearbit.com/'+cardList[id].companyName.toLowerCase()+'.com?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+ cardList[id].companyName.toLowerCase()+'.com?size=500' }
                     }
                     onError={()=>setImageLoading(false)}
                     alt={cardList[id].companyName}
@@ -84,6 +93,9 @@ export const CardView = (props) => {
                 }}
             />
             <View style={styles.barCodeContainer}>
+                <Text style={{marginRight : "auto", marginLeft : "auto", marginTop : "auto", marginBottom : "auto"}}>
+                    <Barcode value={cardList[id].barCode} format={getSanitizeType()} maxWidth={200}/>
+                </Text>
             </View>
         </>
     );

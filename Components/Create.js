@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { FontAwesome } from '@expo/vector-icons';
+import * as Haptics from 'expo-haptics';
+import {NotificationFeedbackType} from "expo-haptics";
+
 
 export const Create = (props) =>{
 
-    const cardList = props.route.params.cardList;
 
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
 
     const navigateToCreateMenu = ({type,barCode}) => {
-        props.navigation.navigate("CreateMenu", {type: type, barCode : barCode});
+        props.navigation.navigate("CreateMenu", {type: type, barCode : barCode, addCard : props.addCard});
     };
 
     useEffect(() => {
@@ -23,6 +25,7 @@ export const Create = (props) =>{
 
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
+        Haptics.notificationAsync(NotificationFeedbackType.Success);
         console.log(`Bar code with type ${type} and data ${data} has been scanned!`);
         navigateToCreateMenu({type: type, barCode: data});
     };

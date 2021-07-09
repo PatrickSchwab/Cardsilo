@@ -5,23 +5,22 @@ import {Image} from "native-base";
 export const Card = (props) => {
 
     const [imageLoading, setImageLoading] = useState(true);
-    const id = props.item.id;
 
     return(
         <>
             <TouchableOpacity
                 style={styles.cardComp}
-                onPress={() => props.navigateToCardView(id)}
+                onPress={() => props.navigateToCardView(props.item.id)}
             >
                 <Image
                     source = { imageLoading
                         ?
-                        { uri: 'https://logo.clearbit.com/'+props.cardList[id].companyName.toLowerCase()+'.ch?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase()+'.ch?size=500' }
                         :
-                        { uri: 'https://logo.clearbit.com/'+props.cardList[id].companyName.toLowerCase()+'.com?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase()+'.com?size=500' }
                     }
                     onError={()=>setImageLoading(false)}
-                    alt={props.cardList[id].companyName}
+                    alt={props.item.companyName.companyName}
                     height={118}
                     resizeMode="cover"
                     borderRadius={9}

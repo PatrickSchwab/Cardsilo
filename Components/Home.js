@@ -1,15 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from "react-native";
 import {Divider, FlatList} from "native-base";
 import {Card} from "./Card";
 
 export const Home = (props) => {
 
-    const cardList = props.route.params.cardList;
+    const [cardList, setCardList] = useState(props.cardList)
 
     const navigateToCardView = (id) => {
-        props.navigation.navigate("CardView", { id: id });
+        props.navigation.navigate("CardView", { id: id , cardList : cardList});
     };
+
+    useEffect(() => {
+        console.log("Home Output:")
+        console.log(cardList[cardList.length - 2]);
+        console.log(cardList[cardList.length - 1]);
+        console.log("------------------------")
+    },[cardList])
 
     return (
         <>
@@ -21,7 +28,7 @@ export const Home = (props) => {
                 <FlatList
                     data={cardList}
                     numColumns={2}
-                    renderItem={({item}) => (<Card item={item} cardList={cardList} navigateToCardView={navigateToCardView}/>)}
+                    renderItem={({item}) => (<Card item={item} navigateToCardView={navigateToCardView}/>)}
                     keyExtractor={item => item.id}
                 />
             </View>

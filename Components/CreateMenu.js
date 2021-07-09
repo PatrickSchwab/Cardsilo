@@ -1,16 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import {Text, View, StyleSheet, Button, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
-import {Divider, Image, Input} from "native-base";
+import React, { useState } from 'react';
+import {Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
+import { Divider, Input} from "native-base";
+import Barcode from 'react-native-barcode-svg';
 
 export const CreateMenu = (props) => {
 
-    const id = props.route.params.id;
     const type = props.route.params.type;
     const barCode = props.route.params.barCode;
-    const cardList = props.route.params.cardList;
 
-    const [companyName, setCompanyName] = useState("Company's name");
-    const [notes, setNotes] = useState("Notes...");
+    const [companyName, setCompanyName] = useState("");
+    const [notes, setNotes] = useState("");
+
+    const getSanitizeType = () => {
+        const sanitizedType = type.split(".");
+        return sanitizedType[sanitizedType.length - 1].toString().replace("-", "").toUpperCase();
+    };
+
+    const handleAddCard = () => {
+        console.log("CreateMenu: added");
+        //TODO CHECK input
+        props.route.params.addCard({barCode : barCode, type : type, companyName : companyName, notes : notes});
+    };
 
     return(
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -25,6 +35,7 @@ export const CreateMenu = (props) => {
                         textAlign={"center"}
                         marginBottom={30}
                         value={companyName}
+                        placeholder={"Company Name"}
                         onChangeText={(e) => setCompanyName(e)}
                         style={styles.cardViewTitleText}
                         _light={{
@@ -46,6 +57,7 @@ export const CreateMenu = (props) => {
                     marginLeft={"auto"}
                     maxLength={40}
                     value={notes}
+                    placeholder={"Notes..."}
                     onChangeText={(e) => setNotes(e)}
                     style={styles.notesContainer}
                     _light={{
@@ -56,9 +68,13 @@ export const CreateMenu = (props) => {
                     }}
                 />
                 <View style={styles.barCodeContainer}>
+                    <Text style={{marginRight : "auto", marginLeft : "auto", marginTop : "auto", marginBottom : "auto"}}>
+                        <Barcode value={barCode} format={getSanitizeType()} maxWidth={200}/>
+                    </Text>
                 </View>
                 <TouchableOpacity
                     style={styles.addCardButton}
+                    onPress={() => handleAddCard()}
                 >
                     <Text style={{fontSize: 20, fontWeight: "bold", textAlign : "center", color : "#0E7AFE"}}>
                         Add Card
