@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity} from "react-native";
+import {Share, StyleSheet, TouchableOpacity} from "react-native";
 import {Divider, Image, Input, Text, View} from "native-base";
-import { MaterialIcons } from '@expo/vector-icons';
 import Barcode from 'react-native-barcode-svg';
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 
 export const CardView = (props) => {
@@ -29,6 +29,26 @@ export const CardView = (props) => {
             ),
         });
     }, [props.navigation]);
+
+    const onShare = async () => {
+        try {
+            const result = await Share.share({
+                message:
+                    'BLABLABLA I share this',
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    // shared with activity type of result.activityType
+                } else {
+                    // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     useEffect(() => {
         console.log("CardViewList change")
@@ -97,6 +117,14 @@ export const CardView = (props) => {
                     <Barcode value={cardList[id].barCode} format={getSanitizeType()} maxWidth={200}/>
                 </Text>
             </View>
+            <TouchableOpacity
+                style={styles.addCardButton}
+                onPress={onShare }
+            >
+                <Text style={{fontSize: 20, fontWeight: "bold", textAlign : "center", color : "#0E7AFE"}}>
+                    Share Card
+                </Text>
+            </TouchableOpacity>
         </>
     );
 }
@@ -151,5 +179,16 @@ const styles = StyleSheet.create({
         width: 310,
         marginTop: 40,
         height: 150,
+    },
+    addCardButton : {
+        marginTop: 30,
+        marginRight : "auto",
+        marginLeft  : "auto",
+        height : 60,
+        width : 310,
+        justifyContent: "center",
+        borderColor : "#0E7AFE",
+        borderWidth : 1,
+        borderRadius : 10,
     }
 });
