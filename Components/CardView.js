@@ -34,7 +34,7 @@ export const CardView = (props) => {
         try {
             const result = await Share.share({
                 message:
-                    'BLABLABLA I share this',
+                    'This is my ' + cardList[id].companyName + '-card with the barcode: ' + cardList[id].barCode,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {

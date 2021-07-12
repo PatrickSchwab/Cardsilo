@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
-import { Divider, Input} from "native-base";
+import {Divider, Input} from "native-base";
 import Barcode from 'react-native-barcode-svg';
+
 
 export const CreateMenu = (props) => {
 
@@ -18,16 +19,19 @@ export const CreateMenu = (props) => {
 
     const handleAddCard = () => {
         console.log("CreateMenu: added");
-        if(companyName !== "" && companyName.length > 3){
-            props.route.params.addCard({barCode : barCode, type : type, companyName : companyName, notes : notes});
+        if (companyName !== "" && companyName.length > 3) {
+            props.route.params.addCard({barCode: barCode, type: type, companyName: companyName, notes: notes});
+            /*
+            To go one step back in the stackNavigation before returning to home
+             */
             props.navigation.navigate("Create");
             props.navigation.navigate("Home");
-        }else{
+        } else {
             alert('You have to provide a company name to proceed');
         }
     };
 
-    return(
+    return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View>
                 <View style={styles.pictureCreateCardContainer}>
@@ -73,7 +77,7 @@ export const CreateMenu = (props) => {
                     }}
                 />
                 <View style={styles.barCodeContainer}>
-                    <Text style={{marginRight : "auto", marginLeft : "auto", marginTop : "auto", marginBottom : "auto"}}>
+                    <Text style={{marginRight: "auto", marginLeft: "auto", marginTop: "auto", marginBottom: "auto"}}>
                         <Barcode value={barCode} format={getSanitizeType()} maxWidth={200}/>
                     </Text>
                 </View>
@@ -81,7 +85,7 @@ export const CreateMenu = (props) => {
                     style={styles.addCardButton}
                     onPress={() => handleAddCard()}
                 >
-                    <Text style={{fontSize: 20, fontWeight: "bold", textAlign : "center", color : "#0E7AFE"}}>
+                    <Text style={{fontSize: 20, fontWeight: "bold", textAlign: "center", color: "#0E7AFE"}}>
                         Add Card
                     </Text>
                 </TouchableOpacity>
@@ -91,38 +95,38 @@ export const CreateMenu = (props) => {
 };
 
 const styles = StyleSheet.create({
-    pictureCreateCardContainer : {
+    pictureCreateCardContainer: {
         height: 100,
         width: 100,
         borderRadius: 100,
-        borderColor : '#707070',
-        borderWidth : 1,
+        borderColor: '#707070',
+        borderWidth: 1,
         marginLeft: "auto",
         marginRight: "auto",
         marginTop: 30,
         marginBottom: 10,
     },
-    cardViewTitleText : {
+    cardViewTitleText: {
         fontSize: 22,
         fontWeight: "bold",
         textAlign: "center",
         marginBottom: 30,
     },
-    cardViewDivider : {
+    cardViewDivider: {
         width: 310,
         marginLeft: "auto",
         marginRight: "auto",
         marginBottom: 40,
     },
-    barCodeContainer : {
+    barCodeContainer: {
         marginTop: 30,
         height: 180,
         width: 310,
-        marginRight : "auto",
+        marginRight: "auto",
         marginLeft: "auto",
-        borderColor : '#707070',
-        borderWidth : 1,
-        borderRadius : 10,
+        borderColor: '#707070',
+        borderWidth: 1,
+        borderRadius: 10,
         /* shadowing
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
@@ -132,24 +136,24 @@ const styles = StyleSheet.create({
 
          */
     },
-    notesContainer : {
-        marginRight : "auto",
-        marginLeft  : "auto",
-        borderColor : '#707070',
-        borderWidth : 1,
-        borderRadius : 10,
+    notesContainer: {
+        marginRight: "auto",
+        marginLeft: "auto",
+        borderColor: '#707070',
+        borderWidth: 1,
+        borderRadius: 10,
         width: 310,
         height: 150,
     },
-    addCardButton : {
+    addCardButton: {
         marginTop: 30,
-        marginRight : "auto",
-        marginLeft  : "auto",
-        height : 60,
-        width : 310,
+        marginRight: "auto",
+        marginLeft: "auto",
+        height: 60,
+        width: 310,
         justifyContent: "center",
-        borderColor : "#0E7AFE",
-        borderWidth : 1,
-        borderRadius : 10,
+        borderColor: "#0E7AFE",
+        borderWidth: 1,
+        borderRadius: 10,
     }
 });
