@@ -18,8 +18,13 @@ export const CreateMenu = (props) => {
 
     const handleAddCard = () => {
         console.log("CreateMenu: added");
-        //TODO CHECK input
-        props.route.params.addCard({barCode : barCode, type : type, companyName : companyName, notes : notes});
+        if(companyName !== "" && companyName.length > 3){
+            props.route.params.addCard({barCode : barCode, type : type, companyName : companyName, notes : notes});
+            props.navigation.navigate("Create");
+            props.navigation.navigate("Home");
+        }else{
+            alert('You have to provide a company name to proceed');
+        }
     };
 
     return(

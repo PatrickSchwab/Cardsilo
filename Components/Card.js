@@ -19,11 +19,18 @@ export const Card = (props) => {
                         :
                         { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase()+'.com?size=500' }
                     }
-                    onError={()=>setImageLoading(false)}
-                    alt={props.item.companyName.companyName}
-                    height={118}
+                    onError={()=>{
+                        if(imageLoading){
+                            setImageLoading(false)
+                        }else{
+
+                        }
+                        }
+                    }
+                    alt={props.item.companyName + "not found"}
+                    height={120}
                     resizeMode="cover"
-                    borderRadius={9}
+                    borderRadius={10}
                 />
             </TouchableOpacity>
         </>
@@ -35,12 +42,13 @@ const styles = StyleSheet.create({
         width : 150,
         height : 120,
         marginLeft : 15,
-        marginTop: 30,
+        marginTop: 20,
         borderRadius : 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.5,
         shadowRadius: 5,
-        elevation: 5
+        elevation: 5,
+        backgroundColor: "#dbd7d7"
     }
 });
