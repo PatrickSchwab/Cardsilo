@@ -19,7 +19,7 @@ export const CreateMenu = (props) => {
 
     const handleAddCard = () => {
         console.log("CreateMenu: added");
-        if (companyName !== "" && companyName.length > 3) {
+        if (companyName !== "" && companyName.length > 1) {
             props.route.params.addCard({barCode: barCode, type: type, companyName: companyName, notes: notes});
             /*
             To go one step back in the stackNavigation before returning to home
