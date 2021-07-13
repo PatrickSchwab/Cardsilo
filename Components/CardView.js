@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {Keyboard, Share, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {Keyboard, Alert, Share, StyleSheet, TouchableOpacity, TouchableWithoutFeedback} from "react-native";
 import {Divider, Image, Input, Text, View} from "native-base";
 import Barcode from 'react-native-barcode-svg';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-
+import {Notifier} from 'react-native-notifier';
 
 export const CardView = (props) => {
 
@@ -12,36 +12,89 @@ export const CardView = (props) => {
 
     const [imageLoading, setImageLoading] = useState(true);
 
-    const [companyName, setCompanyName] = useState(cardList[id].companyName);
-    const [notes, setNotes] = useState(cardList[id].notes);
+    const [companyName, setCompanyName] = useState(cardList.find(x => x.id === id).companyName);
+    const [notes, setNotes] = useState(cardList.find(x => x.id === id).notes);
 
     const [editMode, setEditMode] = useState(false);
 
     const getSanitizeType = () => {
-        const sanitizedType = cardList[id].type.split(".");
+        const sanitizedType = cardList.find(x => x.id === id).type.split(".");
         return sanitizedType[sanitizedType.length - 1].toString().replace("-", "").toUpperCase();
     };
 
+    useEffect(() => {
+        console.log(id)
+    }, [id])
+
     const onSave = () => {
-        //TODO on save
+        //TODO check input
+        props.route.params.updateCard({companyName: companyName, notes: notes, id: id});
+        Notifier.showNotification({
+            title: 'Card updated!',
+            description: 'Your card has successfully been updated',
+            duration: 3000,
+            showAnimationDuration: 800,
+            hideOnPress: true,
+        });
+        props.route.params.refreshHome();
+        setEditMode(false);
     };
+
+    const onDelete = () => {
+        Alert.alert(
+            "Delete this card",
+            "Are you sure you want to delete this card?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                {
+                    text: "Delete",
+                    onPress: () => {
+                        props.navigation.navigate("Home");
+                        props.route.params.deleteCard({id: id});
+                        props.route.params.refreshHome();
+                        Notifier.showNotification({
+                            title: 'Card removed!',
+                            description: 'Your card has successfully been removed',
+                            duration: 3000,
+                            showAnimationDuration: 800,
+                            hideOnPress: true,
+                        });
+                        setEditMode(false);
+                    },
+                    style: "submit",
+                },
+            ]
+        );
+    }
 
     React.useLayoutEffect(() => {
         props.navigation.setOptions({
-            title: cardList[id].companyName,
+            title: cardList.find(x => x.id === id).companyName,
             headerRight: () => {
-                if(!editMode){
-                    return(
+                if (!editMode) {
+                    return (
                         <TouchableOpacity
-                            onPress={() => {setEditMode(true)}}
+                            onPress={() => {
+                                setEditMode(true)
+                            }}
                             style={{marginRight: 10,}}
                         >
-                            <MaterialIcons name="edit" size={23} color="#0E7AFE" />
+                            <MaterialIcons name="edit" size={23} color="#0E7AFE"/>
                         </TouchableOpacity>
                     );
                 }
-                return(
-                  <></>
+                return (
+                    <TouchableOpacity
+                        onPress={() => {
+                            onDelete()
+                        }}
+                        style={{marginRight: 10,}}
+                    >
+                        <MaterialIcons name="delete" size={23} color="#0E7AFE"/>
+                    </TouchableOpacity>
                 );
             }
             ,
@@ -52,7 +105,7 @@ export const CardView = (props) => {
         try {
             const result = await Share.share({
                 message:
-                    'This is my ' + cardList[id].companyName + '-card with the barcode: ' + cardList[id].barCode,
+                    'This is my ' + cardList.find(x => x.id === id).companyName + '-card with the barcode: ' + cardList.find(x => x.id === id).barCode,
             });
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -69,19 +122,19 @@ export const CardView = (props) => {
     };
 
 
-    return(
+    return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View>
                 <View style={styles.pictureCardContainer}>
                     <Image
-                        source = { imageLoading
+                        source={imageLoading
                             ?
-                            { uri: 'https://logo.clearbit.com/'+ cardList[id].companyName.toLowerCase()+'.ch?size=500' }
+                            {uri: 'https://logo.clearbit.com/' + cardList.find(x => x.id === id).companyName.toLowerCase().replace(" ", "") + '.ch?size=500'}
                             :
-                            { uri: 'https://logo.clearbit.com/'+ cardList[id].companyName.toLowerCase()+'.com?size=500' }
+                            {uri: 'https://logo.clearbit.com/' + cardList.find(x => x.id === id).companyName.toLowerCase().replace(" ", "") + '.com?size=500'}
                         }
-                        onError={()=>setImageLoading(false)}
-                        alt={cardList[id].companyName}
+                        onError={() => setImageLoading(false)}
+                        alt={cardList.find(x => x.id === id).companyName}
                         height={100}
                         resizeMode="cover"
                         borderRadius={100}
@@ -131,8 +184,8 @@ export const CardView = (props) => {
                     }}
                 />
                 <View style={styles.barCodeContainer}>
-                    <Text style={{marginRight : "auto", marginLeft : "auto", marginTop : "auto", marginBottom : "auto"}}>
-                        <Barcode value={cardList[id].barCode} format={getSanitizeType()} maxWidth={200}/>
+                    <Text style={{marginRight: "auto", marginLeft: "auto", marginTop: "auto", marginBottom: "auto"}}>
+                        <Barcode value={cardList.find(x => x.id === id).barCode} format={getSanitizeType()} maxWidth={200}/>
                     </Text>
                 </View>
                 {editMode ? (
@@ -140,7 +193,7 @@ export const CardView = (props) => {
                         style={styles.addCardButton}
                         onPress={onSave}
                     >
-                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign : "center", color : "#0E7AFE"}}>
+                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign: "center", color: "#0E7AFE"}}>
                             Save Changes
                         </Text>
                     </TouchableOpacity>
@@ -149,7 +202,7 @@ export const CardView = (props) => {
                         style={styles.addCardButton}
                         onPress={onShare}
                     >
-                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign : "center", color : "#0E7AFE"}}>
+                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign: "center", color: "#0E7AFE"}}>
                             Share Card
                         </Text>
                     </TouchableOpacity>
@@ -161,12 +214,12 @@ export const CardView = (props) => {
 }
 
 const styles = StyleSheet.create({
-    pictureCardContainer : {
+    pictureCardContainer: {
         height: 100,
         width: 100,
         borderRadius: 100,
-        borderColor : '#707070',
-        borderWidth : 0,
+        borderColor: '#707070',
+        borderWidth: 0,
         marginLeft: "auto",
         marginRight: "auto",
         marginTop: 30,

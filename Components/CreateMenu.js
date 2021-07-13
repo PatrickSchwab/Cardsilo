@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
 import {Divider, Input} from "native-base";
 import Barcode from 'react-native-barcode-svg';
+import { Notifier} from 'react-native-notifier';
 
 
 export const CreateMenu = (props) => {
@@ -18,9 +19,16 @@ export const CreateMenu = (props) => {
     };
 
     const handleAddCard = () => {
-        console.log("CreateMenu: added");
+        console.log("CreateMenu : added");
         if (companyName !== "" && companyName.length > 1) {
             props.route.params.addCard({barCode: barCode, type: type, companyName: companyName, notes: notes});
+            Notifier.showNotification({
+                title: 'Card added!',
+                description: 'Your card has successfully been added',
+                duration: 3000,
+                showAnimationDuration: 800,
+                hideOnPress: true,
+            });
             /*
             To go one step back in the stackNavigation before returning to home
              */

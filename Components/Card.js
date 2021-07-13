@@ -15,9 +15,9 @@ export const Card = (props) => {
                 <Image
                     source = { imageLoading
                         ?
-                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase()+'.ch?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase().replace(" ", "")+'.ch?size=500' }
                         :
-                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase()+'.com?size=500' }
+                        { uri: 'https://logo.clearbit.com/'+props.item.companyName.toLowerCase().replace(" ", "")+'.com?size=500' }
                     }
                     onError={()=>{
                         if(imageLoading){
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width : 150,
         height : 120,
         marginLeft : 15,
-        marginTop: 20,
+        marginTop : 20,
         borderRadius : 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 3 },

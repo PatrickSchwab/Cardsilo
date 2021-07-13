@@ -1,11 +1,11 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NativeBaseProvider} from 'native-base';
-import {StyleSheet} from "react-native";
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { NotifierWrapper } from 'react-native-notifier';
 import {Home} from './Components/Home';
 import {Settings} from './Components/Settings';
 import {Create} from "./Components/Create";
@@ -74,12 +74,23 @@ export default function App() {
         }])
     };
 
-    useEffect(()=> {
-        console.log(cardList);
-    },[cardList])
+    const updateCard = (props) => {
+        const cL = cardList;
+        cL[props.id].companyName = props.companyName;
+        cL[props.id].notes = props.notes;
+        setCardList(cL);
+    };
+
+    const deleteCard = (props) => {
+        const cL = cardList.filter(x => {
+            return x.id !== props.id;
+        });
+        console.log(props.id)
+        setCardList(cL);
+    };
 
     const HomeComponent = (props) => (
-        <Home cardList={cardList} navigation={props.navigation} />
+        <Home cardList={cardList} updateCard={updateCard} deleteCard={deleteCard} navigation={props.navigation} />
     )
 
     const CreateComponent = (props) => (
@@ -127,39 +138,41 @@ export default function App() {
     return (
         <>
             <NativeBaseProvider>
-                <StatusBar/>
-                <NavigationContainer>
-                    <Tab.Navigator
-                        screenOptions={({route}) => ({
-                            tabBarIcon: ({color}) => {
-                                if (route.name === 'Home') {
-                                    return <MaterialCommunityIcons name="home" size={24} color={color}/>;
-                                } else if (route.name === 'Settings') {
-                                    return <MaterialCommunityIcons name="account-settings" size={24} color={color}/>;
-                                } else if (route.name === 'Create') {
-                                    return <MaterialCommunityIcons name="camera-plus-outline" size={24} color={color}/>;
-                                }
-                            },
-                        })}
-                        tabBarOptions={{
-                            activeTintColor: 'tomato',
-                            inactiveTintColor: 'gray',
-                        }}
-                    >
-                        <Tab.Screen
-                            name="Home"
-                            component={StackNavigatorHome}
-                        />
-                        <Tab.Screen
-                            name="Create"
-                            component={StackNavigatorCreate}
-                        />
-                        <Tab.Screen
-                            name="Settings"
-                            children={() => <Settings cardList={cardList}/>}
-                        />
-                    </Tab.Navigator>
-                </NavigationContainer>
+                <NotifierWrapper>
+                    <StatusBar/>
+                    <NavigationContainer>
+                        <Tab.Navigator
+                            screenOptions={({route}) => ({
+                                tabBarIcon: ({color}) => {
+                                    if (route.name === 'Home') {
+                                        return <MaterialCommunityIcons name="home" size={24} color={color}/>;
+                                    } else if (route.name === 'Settings') {
+                                        return <MaterialCommunityIcons name="account-settings" size={24} color={color}/>;
+                                    } else if (route.name === 'Create') {
+                                        return <MaterialCommunityIcons name="camera-plus-outline" size={24} color={color}/>;
+                                    }
+                                },
+                            })}
+                            tabBarOptions={{
+                                activeTintColor: 'tomato',
+                                inactiveTintColor: 'gray',
+                            }}
+                        >
+                            <Tab.Screen
+                                name="Home"
+                                component={StackNavigatorHome}
+                            />
+                            <Tab.Screen
+                                name="Create"
+                                component={StackNavigatorCreate}
+                            />
+                            <Tab.Screen
+                                name="Settings"
+                                children={() => <Settings cardList={cardList}/>}
+                            />
+                        </Tab.Navigator>
+                    </NavigationContainer>
+                </NotifierWrapper>
             </NativeBaseProvider>
         </>
     );
