@@ -27,17 +27,20 @@ export const CardView = (props) => {
     }, [id])
 
     const onSave = () => {
-        //TODO check input
-        props.route.params.updateCard({companyName: companyName, notes: notes, id: id});
-        Notifier.showNotification({
-            title: 'Card updated!',
-            description: 'Your card has successfully been updated',
-            duration: 3000,
-            showAnimationDuration: 800,
-            hideOnPress: true,
-        });
-        props.route.params.refreshHome();
-        setEditMode(false);
+        if (companyName.length > 1) {
+            props.route.params.updateCard({companyName: companyName, notes: notes, id: id});
+            Notifier.showNotification({
+                title: 'Card updated!',
+                description: 'Your card has successfully been updated',
+                duration: 3000,
+                showAnimationDuration: 800,
+                hideOnPress: true,
+            });
+            props.route.params.refreshHome();
+            setEditMode(false);
+        } else {
+            alert('You have to provide a company name to proceed');
+        }
     };
 
     const onDelete = () => {

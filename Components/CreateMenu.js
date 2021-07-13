@@ -20,7 +20,7 @@ export const CreateMenu = (props) => {
 
     const handleAddCard = () => {
         console.log("CreateMenu : added");
-        if (companyName !== "" && companyName.length > 1) {
+        if (companyName.length > 1) {
             props.route.params.addCard({barCode: barCode, type: type, companyName: companyName, notes: notes});
             Notifier.showNotification({
                 title: 'Card added!',
