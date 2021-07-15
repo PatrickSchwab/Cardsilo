@@ -76,11 +76,11 @@ export const SignIn = (props) => {
                         />
                     </View>
                     <View style={styles.dontHaveLoginTextContainer}>
-                        <Text style={styles.dontHaveLoginText}>Don't have an account? </Text>
+                        <Text style={styles.dontHaveLoginText}>Already have an account? </Text>
                         <TouchableOpacity
-                            onPress={() => props.navigation.navigate("SignIn")}
+                            onPress={() => props.navigation.navigate("LogIn")}
                         >
-                            <Text style={{color: "#0E7AFE", fontSize: 15}}>Register here</Text>
+                            <Text style={{color: "#0E7AFE", fontSize: 15}}>Login here</Text>
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     dontHaveLoginTextContainer: {
         flexDirection: "row",
-        marginTop: 200
+        marginTop: 120
     },
     dontHaveLoginText: {
         fontSize: 15,

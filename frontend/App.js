@@ -94,6 +94,10 @@ export default function App() {
         setCardList(cL);
     };
 
+    const setLoggedIn = () => {
+        setIsLoggedIn(!isLoggedIn);
+    };
+
     const HomeComponent = (props) => (
         <Home cardList={cardList} updateCard={updateCard} deleteCard={deleteCard} navigation={props.navigation} />
     )
@@ -107,7 +111,7 @@ export default function App() {
     )
 
     const LogInComponent = (props) => (
-        <LogIn navigation={props.navigation} />
+        <LogIn navigation={props.navigation} setLoggedIn={setLoggedIn} />
     )
 
     const StackNavigatorHome = () => {

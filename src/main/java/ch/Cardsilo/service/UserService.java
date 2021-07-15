@@ -2,48 +2,52 @@ package ch.Cardsilo.service;
 
 
 import ch.Cardsilo.domain.User;
-import ch.Cardsilo.repository.CardSilo;
+import ch.Cardsilo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
-    private CardSilo cardSilo;
+    private UserRepository userRepository;
 
-    public UserService(CardSilo cardSilo) {
-        this.cardSilo = cardSilo;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public User createUser(User user) {
-        return cardSilo.save(user);
+        return userRepository.save(user);
     }
 
     public void removeUser(User user) {
-        cardSilo.delete(user);
+        userRepository.delete(user);
+    }
+
+    public User findUserByUsername(String username) {
+        Optional opt = userRepository.findByUsername(username);
+        return opt.isPresent() ? (User) opt.get() : null;
     }
 
     public void removeUserById(Long id) {
-        cardSilo.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     public Optional<User> findUserById(Long id) {
-        return cardSilo.findById(id);
+        return userRepository.findById(id);
     }
 
     public Iterable<User> findAllUsers() {
-        return cardSilo.findAll();
+        return userRepository.findAll();
     }
 
     public User changeUserById(User newEntry, Long id) {
-        return cardSilo.findById(id).map(entry -> {
+        return userRepository.findById(id).map(entry -> {
             entry.setUsername(newEntry.getUsername());
             entry.setPassword(newEntry.getPassword());
-            return cardSilo.save(entry);
+            return userRepository.save(entry);
         }).orElseGet(() -> {
             newEntry.setId(id);
-            return cardSilo.save(newEntry);
+            return userRepository.save(newEntry);
         });
     }
 

@@ -8,13 +8,27 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity
 } from "react-native";
-import {Button, Input} from "native-base";
-import { Entypo } from '@expo/vector-icons';
+import {Input} from "native-base";
+import axios from "axios";
 
 export const LogIn = (props) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+
+    const verifyLoginData = async (e) => {
+        try {
+            const result = await axios.post("http://10.73.4.58:8080/api/authenticateUser", {
+                username,
+                password,
+            });
+            console.log(result.data);
+            localStorage.setItem("token", result.data);
+            props.setLoggedIn();
+        } catch (err) {
+            console.error(err);
+        }
+    }
 
     return (
         <>
@@ -70,6 +84,7 @@ export const LogIn = (props) => {
                         style={styles.loginButtonLogin}
                         onPress={() => {
                             console.log("trigger login")
+                            verifyLoginData();
                         }}
                     >
                         <Text style={{
