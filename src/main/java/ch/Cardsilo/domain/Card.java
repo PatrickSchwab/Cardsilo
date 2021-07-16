@@ -31,6 +31,15 @@ public class Card {
     @JoinColumn(name = "user_idfs")
     private User user;
 
+    public Card(){}
+
+    public Card(Long id, String companyName, String notes, String type, String barcode, User user) {
+        this.companyName = companyName;
+        this.notes = notes;
+        this.type = type;
+        this.barcode = barcode;
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,5 +78,13 @@ public class Card {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

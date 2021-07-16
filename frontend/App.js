@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {NotifierWrapper} from 'react-native-notifier';
+import {Notifier, NotifierComponents, NotifierWrapper} from 'react-native-notifier';
 import {Home} from './Components/view/Home';
 import {Settings} from './Components/Settings';
 import {Create} from "./Components/create/Create";
@@ -71,19 +71,26 @@ export default function App() {
         },
     ]);
 
-    const fetchCardList = async () => {
-        try {
-            const result = await axios.post('');//TODO API CARDLIST
-            setCardList(result.data);
-            console.log(result);
-        } catch (e) {
-            console.error(e);
+    const fetchCardList = () => {
+        if(loggedInUserToken !== ""){
+            console.log("Fetched .......................................")
+            axios.get('http://127.0.0.1:8080/api/getCardListFromAuthUser',{
+                headers: {
+                    Authorization : loggedInUserToken
+                }
+            }).then(res => {
+                console.log("CardList " + res.data);
+            }).catch(err => {
+
+            })
+        }else{
+            console.log("not logged in yet")
         }
     }
 
     useEffect(() => {
         fetchCardList();
-    }, [])
+    }, [loggedInUserToken])
 
     const setToken = (props) => {
         setLoggedInUserToken(props);

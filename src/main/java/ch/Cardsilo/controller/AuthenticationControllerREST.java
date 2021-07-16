@@ -1,5 +1,6 @@
 package ch.Cardsilo.controller;
 
+import ch.Cardsilo.domain.Card;
 import ch.Cardsilo.domain.User;
 import ch.Cardsilo.security.JwtAuthenticationUserModel;
 import ch.Cardsilo.security.JwtTokenUtil;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.SchemaOutputResolver;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -32,6 +34,8 @@ public class AuthenticationControllerREST {
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
+    private CardController cardController;
 
 
     // create a new user and save to DB
@@ -71,11 +75,19 @@ public class AuthenticationControllerREST {
 
     @GetMapping(value = "/getAuthenticatedUser", produces = "application/json")
     public ResponseEntity<?> getUserFromToken(@RequestHeader("Authorization") String token) {
-        System.out.println("HEllo");
         User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token.substring(7)));
         if(user != null){
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping(value = "/getCardListFromAuthUser", produces = "application/json")
+    public ResponseEntity<?> getCardListFromAuthUser(@RequestHeader("Authorization") String token) {
+        ArrayList<Card> cardList = cardController.getAllCardsWithUserId(userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token.substring(7))).getId());
+        if(cardList != null){
+            return new ResponseEntity<>(cardList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
