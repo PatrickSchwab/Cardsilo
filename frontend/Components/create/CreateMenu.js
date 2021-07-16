@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
 import {Divider, Input} from "native-base";
 import Barcode from 'react-native-barcode-svg';
-import { Notifier} from 'react-native-notifier';
+import {Notifier} from 'react-native-notifier';
 
 
 export const CreateMenu = (props) => {
