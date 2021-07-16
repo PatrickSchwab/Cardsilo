@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         // authenticate every request except explicitly specified in antMatchers
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/registerUser").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/authenticateUser").permitAll()

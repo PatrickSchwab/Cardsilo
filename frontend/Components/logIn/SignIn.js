@@ -1,14 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    RefreshControl,
     TouchableWithoutFeedback,
     Keyboard,
     TouchableOpacity
 } from "react-native";
 import {Input} from "native-base";
+import axios from "axios";
+import {Notifier, NotifierComponents} from "react-native-notifier";
 
 export const SignIn = (props) => {
 
@@ -16,12 +17,49 @@ export const SignIn = (props) => {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
 
+    const verifySignIn = () => {
+        if (password === passwordCheck) {
+            axios.post('http://127.0.0.1:8080/api/registerUser', {
+                username: username,
+                password: password
+            }).then(res => {
+                console.log(res.status)
+                Notifier.showNotification({
+                    title: 'Signed in successfully',
+                    Component: NotifierComponents.Alert,
+                    componentProps: {
+                        alertType: 'success',
+                    },
+                });
+                props.navigation.navigate("LogIn");
+            }).catch(err => {
+                Notifier.showNotification({
+                    title: 'Sign in failed',
+                    description: "The username is already taken",
+                    Component: NotifierComponents.Alert,
+                    componentProps: {
+                        alertType: 'error',
+                    },
+                });
+            })
+        } else {
+            Notifier.showNotification({
+                title: 'Sign in failed',
+                description: "The passwords aren't matching",
+                Component: NotifierComponents.Alert,
+                componentProps: {
+                    alertType: 'error',
+                },
+            });
+        }
+    }
+
     return (
         <>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                 <View style={styles.mainLoginContainer}>
                     <Text style={styles.titleTextLogin}>Let's sign you in</Text>
-                    <Text style={styles.textLogin}>Welcome back. You've been missed! </Text>
+                    <Text style={styles.textLogin}>Welcome to Cardsilo! </Text>
                     <View style={styles.loginInputsContainer}>
                         <Input
                             variant="outline"
@@ -61,7 +99,7 @@ export const SignIn = (props) => {
                             type="password"
                             placeholder="Confirm Password"
                             value={passwordCheck}
-                            onChangeText={(e) => setPasswordCheck (e)}
+                            onChangeText={(e) => setPasswordCheck(e)}
                             height={60}
                             fontSize={20}
                             marginTop={30}
@@ -85,9 +123,7 @@ export const SignIn = (props) => {
                     </View>
                     <TouchableOpacity
                         style={styles.loginButtonLogin}
-                        onPress={() => {
-                            console.log("trigger login")
-                        }}
+                        onPress={verifySignIn}
                     >
                         <Text style={{
                             textAlign: "center",

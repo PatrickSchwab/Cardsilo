@@ -3,14 +3,20 @@ import {StyleSheet, TouchableOpacity} from "react-native";
 import {Divider, Image, Text, View} from "native-base";
 import { MaterialIcons } from '@expo/vector-icons';
 
-export const Settings = () =>{
+export const Settings = (props) =>{
+
+    const handlePressLogout = () => {
+        props.setLoggedOut();
+    };
 
     return(
         <>
             <View style={styles.titleCardContainer}>
                 <View style={styles.titleProfileContainer}>
                     <Text style={styles.titleCardText}>Settings</Text>
-                    <TouchableOpacity style={{justifyContent: "flex-end", right: 0, position: "absolute", marginTop: 6,}}>
+                    <TouchableOpacity style={{justifyContent: "flex-end", right: 0, position: "absolute", marginTop: 6,}}
+                        onPress={handlePressLogout}
+                    >
                         <MaterialIcons name="logout" size={30} color="black" />
                     </TouchableOpacity>
                 </View>

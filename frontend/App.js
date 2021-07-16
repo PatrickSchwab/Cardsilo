@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import { NotifierWrapper } from 'react-native-notifier';
+import {NotifierWrapper} from 'react-native-notifier';
 import {Home} from './Components/view/Home';
 import {Settings} from './Components/Settings';
 import {Create} from "./Components/create/Create";
@@ -95,23 +95,31 @@ export default function App() {
     };
 
     const setLoggedIn = () => {
-        setIsLoggedIn(!isLoggedIn);
+        setIsLoggedIn(true);
+    };
+
+    const setLoggedOut = () => {
+        setIsLoggedIn(false);
     };
 
     const HomeComponent = (props) => (
-        <Home cardList={cardList} updateCard={updateCard} deleteCard={deleteCard} navigation={props.navigation} />
+        <Home cardList={cardList} updateCard={updateCard} deleteCard={deleteCard} navigation={props.navigation}/>
     )
 
     const CreateComponent = (props) => (
-        <Create addCard={addCard} navigation={props.navigation} />
+        <Create addCard={addCard} navigation={props.navigation}/>
     )
 
     const SignInComponent = (props) => (
-        <SignIn navigation={props.navigation} />
+        <SignIn navigation={props.navigation}/>
     )
 
     const LogInComponent = (props) => (
-        <LogIn navigation={props.navigation} setLoggedIn={setLoggedIn} />
+        <LogIn navigation={props.navigation} setLoggedIn={setLoggedIn}/>
+    )
+
+    const SettingsComponent = (props) => (
+        <Settings navigation={props.navigation} setLoggedOut={setLoggedOut}/>
     )
 
     const StackNavigatorHome = () => {
@@ -165,11 +173,14 @@ export default function App() {
                                         screenOptions={({route}) => ({
                                             tabBarIcon: ({color}) => {
                                                 if (route.name === 'Home') {
-                                                    return <MaterialCommunityIcons name="home" size={24} color={color}/>;
+                                                    return <MaterialCommunityIcons name="home" size={24}
+                                                                                   color={color}/>;
                                                 } else if (route.name === 'Settings') {
-                                                    return <MaterialCommunityIcons name="account-settings" size={24} color={color}/>;
+                                                    return <MaterialCommunityIcons name="account-settings" size={24}
+                                                                                   color={color}/>;
                                                 } else if (route.name === 'Create') {
-                                                    return <MaterialCommunityIcons name="camera-plus-outline" size={24} color={color}/>;
+                                                    return <MaterialCommunityIcons name="camera-plus-outline" size={24}
+                                                                                   color={color}/>;
                                                 }
                                             },
                                         })}
@@ -188,7 +199,7 @@ export default function App() {
                                         />
                                         <Tab.Screen
                                             name="Settings"
-                                            children={() => <Settings cardList={cardList}/>}
+                                            component={SettingsComponent}
                                         />
                                     </Tab.Navigator>
                                 </>

@@ -10,6 +10,7 @@ import java.security.KeyStore;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:19006/", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class UserController {

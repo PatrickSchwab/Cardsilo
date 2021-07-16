@@ -1,33 +1,50 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    RefreshControl,
     Keyboard,
     TouchableWithoutFeedback,
     TouchableOpacity
 } from "react-native";
 import {Input} from "native-base";
 import axios from "axios";
+import {Notifier, NotifierComponents} from "react-native-notifier";
 
 export const LogIn = (props) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const verifyLoginData = async (e) => {
-        try {
-            const result = await axios.post("http://10.73.4.58:8080/api/authenticateUser", {
-                username,
-                password,
+    const verifyLoginData = () => {
+        axios.post('http://127.0.0.1:8080/api/authenticateUser', {
+            username: username,
+            password: password
+        }).then(res => {
+            console.log(res.status)
+            Notifier.showNotification({
+                title: 'Logged in successfully',
+                Component: NotifierComponents.Alert,
+                componentProps: {
+                    alertType: 'success',
+                },
             });
-            console.log(result.data);
-            localStorage.setItem("token", result.data);
             props.setLoggedIn();
-        } catch (err) {
-            console.error(err);
-        }
+        }).catch(err => {
+            Notifier.showNotification({
+                title: 'Login failed',
+                description: 'Check your login information, please',
+                Component: NotifierComponents.Alert,
+                componentProps: {
+                    alertType: 'error',
+                },
+            });
+        })
+    }
+
+    const handleLoginButton = () => {
+        console.log("trigger login")
+        verifyLoginData();
     }
 
     return (
@@ -82,10 +99,7 @@ export const LogIn = (props) => {
                     </View>
                     <TouchableOpacity
                         style={styles.loginButtonLogin}
-                        onPress={() => {
-                            console.log("trigger login")
-                            verifyLoginData();
-                        }}
+                        onPress={handleLoginButton}
                     >
                         <Text style={{
                             textAlign: "center",
