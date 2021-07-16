@@ -30,6 +30,7 @@ export const LogIn = (props) => {
                 },
             });
             props.setLoggedIn();
+            props.setToken(res.data);
         }).catch(err => {
             Notifier.showNotification({
                 title: 'Login failed',

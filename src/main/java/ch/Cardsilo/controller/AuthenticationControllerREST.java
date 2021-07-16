@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.SchemaOutputResolver;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -68,12 +69,13 @@ public class AuthenticationControllerREST {
         return new ResponseEntity<>(jwtTokenUtil.generateToken(userService.findUserByUsername(inputUser.getUsername()).getUsername()), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/isAuthenticated", produces = "application/json")
-    public ResponseEntity<?> validateToken(@RequestHeader("Authorization") String token) {
-        if (jwtTokenUtil.validateToken(token.substring(7), userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token.substring(7))))) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+    @GetMapping(value = "/getAuthenticatedUser", produces = "application/json")
+    public ResponseEntity<?> getUserFromToken(@RequestHeader("Authorization") String token) {
+        System.out.println("HEllo");
+        User user = userService.findUserByUsername(jwtTokenUtil.getUsernameFromToken(token.substring(7)));
+        if(user != null){
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-
-        return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

@@ -1,6 +1,7 @@
 package ch.Cardsilo.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -8,18 +9,21 @@ import javax.persistence.*;
 public class Card {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GenericGenerator(name = "native", strategy = "native")
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
-    @Column
+    @Column(name = "companyName")
     private String companyName;
 
-    @Column
+    @Column(name = "notes")
     private String notes;
 
-    @Column
+    @Column(name = "type")
     private String type;
 
-    @Column
+    @Column(name = "bardcode")
     private String barcode;
 
     @JsonBackReference

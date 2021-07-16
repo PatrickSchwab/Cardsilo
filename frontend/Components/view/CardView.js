@@ -4,6 +4,7 @@ import {Divider, Image, Input, Text, View} from "native-base";
 import Barcode from 'react-native-barcode-svg';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {Notifier} from 'react-native-notifier';
+import { AntDesign } from '@expo/vector-icons';
 
 export const CardView = (props) => {
 
@@ -92,11 +93,11 @@ export const CardView = (props) => {
                 return (
                     <TouchableOpacity
                         onPress={() => {
-                            onDelete()
+                            onSave()
                         }}
                         style={{marginRight: 10,}}
                     >
-                        <MaterialIcons name="delete" size={23} color="#0E7AFE"/>
+                        <AntDesign name="check" size={23} color="#0E7AFE" />
                     </TouchableOpacity>
                 );
             }
@@ -193,11 +194,11 @@ export const CardView = (props) => {
                 </View>
                 {editMode ? (
                     <TouchableOpacity
-                        style={styles.addCardButton}
-                        onPress={onSave}
+                        style={styles.deleteCardButton}
+                        onPress={onDelete}
                     >
-                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign: "center", color: "#0E7AFE"}}>
-                            Save Changes
+                        <Text style={{fontSize: 20, fontWeight: "bold", textAlign: "center", color: "#e6352b"}}>
+                            Delete Card
                         </Text>
                     </TouchableOpacity>
                 ) : (
@@ -274,6 +275,17 @@ const styles = StyleSheet.create({
         width: 310,
         justifyContent: "center",
         borderColor: "#0E7AFE",
+        borderWidth: 1,
+        borderRadius: 10,
+    },
+    deleteCardButton : {
+        marginTop: 30,
+        marginRight: "auto",
+        marginLeft: "auto",
+        height: 60,
+        width: 310,
+        justifyContent: "center",
+        borderColor: "#e6352b",
         borderWidth: 1,
         borderRadius: 10,
     }

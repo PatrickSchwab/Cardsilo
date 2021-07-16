@@ -19,29 +19,40 @@ export const SignIn = (props) => {
 
     const verifySignIn = () => {
         if (password === passwordCheck) {
-            axios.post('http://127.0.0.1:8080/api/registerUser', {
-                username: username,
-                password: password
-            }).then(res => {
-                console.log(res.status)
-                Notifier.showNotification({
-                    title: 'Signed in successfully',
-                    Component: NotifierComponents.Alert,
-                    componentProps: {
-                        alertType: 'success',
-                    },
-                });
-                props.navigation.navigate("LogIn");
-            }).catch(err => {
+            if((password.length > 3) && (username.length > 3)){
+                axios.post('http://127.0.0.1:8080/api/registerUser', {
+                    username: username,
+                    password: password
+                }).then(res => {
+                    console.log(res.status)
+                    Notifier.showNotification({
+                        title: 'Signed in successfully',
+                        Component: NotifierComponents.Alert,
+                        componentProps: {
+                            alertType: 'success',
+                        },
+                    });
+                    props.navigation.navigate("LogIn");
+                }).catch(err => {
+                    Notifier.showNotification({
+                        title: 'Sign in failed',
+                        description: "The username is already taken",
+                        Component: NotifierComponents.Alert,
+                        componentProps: {
+                            alertType: 'error',
+                        },
+                    });
+                })
+            }else {
                 Notifier.showNotification({
                     title: 'Sign in failed',
-                    description: "The username is already taken",
+                    description: "The username or password is too short",
                     Component: NotifierComponents.Alert,
                     componentProps: {
                         alertType: 'error',
                     },
                 });
-            })
+            }
         } else {
             Notifier.showNotification({
                 title: 'Sign in failed',

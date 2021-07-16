@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {NativeBaseProvider} from 'native-base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -14,6 +14,7 @@ import {CreateMenu} from "./Components/create/CreateMenu";
 import {Starting} from "./Components/logIn/Starting";
 import {SignIn} from "./Components/logIn/SignIn";
 import {LogIn} from "./Components/logIn/LogIn";
+import axios from "axios";
 
 
 const Tab = createBottomTabNavigator();
@@ -22,6 +23,8 @@ const Stack = createStackNavigator();
 export default function App() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const [loggedInUserToken, setLoggedInUserToken] = useState("");
 
     const [cardList, setCardList] = useState([
         {
@@ -67,6 +70,24 @@ export default function App() {
             barCode: "2090007024565",
         },
     ]);
+
+    const fetchCardList = async () => {
+        try {
+            const result = await axios.post('');//TODO API CARDLIST
+            setCardList(result.data);
+            console.log(result);
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    useEffect(() => {
+        fetchCardList();
+    }, [])
+
+    const setToken = (props) => {
+        setLoggedInUserToken(props);
+    };
 
     const addCard = (props) => {
         console.log("APP: " + "BarCode: " + props.barCode + " Type: " + props.type + " Company Name: " + props.companyName + " Notes: " + props.notes + " CardList Lenght: " + cardList.length);
@@ -115,7 +136,7 @@ export default function App() {
     )
 
     const LogInComponent = (props) => (
-        <LogIn navigation={props.navigation} setLoggedIn={setLoggedIn}/>
+        <LogIn navigation={props.navigation} setLoggedIn={setLoggedIn} setToken={setToken}/>
     )
 
     const SettingsComponent = (props) => (
